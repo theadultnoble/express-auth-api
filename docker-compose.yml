@@ -1,0 +1,17 @@
+---
+version: "3.9"
+networks:
+  default:
+    name: jwt
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    volumes:
+      - /Users/andrew/techne/node-jwts/mongo:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongo
+      - MONGO_INITDB_ROOT_PASSWORD=mongo
