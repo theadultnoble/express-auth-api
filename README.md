@@ -15,7 +15,7 @@ Getting Started
 
 To get started with the Node Express Authentication API, follow these steps:
 
-Clone the repository: git clone https://github.com/your-username/your-repo.git
+Clone the repository: git clone https://github.com/theadultnoble/express-auth-api.git
 Install dependencies: npm install
 Set up the environment variables: Create a .env file based on the provided .env.example file and fill in the required values.
 Start the server: npm start
