@@ -75,7 +75,8 @@ router.post("/sign-in", async (req, res) => {
 });
 
 router.get("/test", requireAuth, (req, res) => {
-  res.send(`your email: ${req.user.email}`);
+  res.send("you are authorized to make this request");
+  res.send(`your email: ${req.user}`);
 });
 
 module.exports = router;

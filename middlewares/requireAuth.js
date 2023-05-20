@@ -22,9 +22,8 @@ module.exports = (req, res, next) => {
     }
 
     const { email } = payload;
-    const user = await User.findOne(email);
-    console.log(user);
-    req.user = user;
+    console.log(email);
+    req.user = payload;
   });
   next();
 };
