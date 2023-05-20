@@ -75,7 +75,6 @@ router.post("/sign-in", async (req, res) => {
 });
 
 router.get("/test", requireAuth, (req, res) => {
-  //console.log(req);
   res.send(`your email: ${req.user.email}`);
 });
 

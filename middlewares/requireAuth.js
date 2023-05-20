@@ -12,17 +12,18 @@ module.exports = (req, res, next) => {
   if (!authorization) {
     return res.status(404).send({ error: "must be logged in" });
   }
+
   const token = authorization.replace("Bearer ", "");
 
   //Verifying if the token is valid.
   jwt.verify(token, JWT_SECRET, async (err, payload) => {
     if (err) {
-      console.log("hello");
       return res.status(403).send("Could not verify token");
     }
 
-    const { userID } = payload;
-    const user = await User.findById(userID);
+    const { email } = payload;
+    const user = await User.findOne(email);
+    console.log(user);
     req.user = user;
   });
   next();
