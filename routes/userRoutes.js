@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+require("dotenv").config(); // Load the .env file
+const requireAuth = require("../middlewares/requireAuth");
 
 router.post("/sign-up", async (req, res) => {
   try {
@@ -20,7 +23,10 @@ router.post("/sign-up", async (req, res) => {
 
     //Hashing a Password
     bcrypt.hash(password, saltRounds, (err, hash) => {
-      if (err) throw new Error("Internal Server Error");
+      if (err) {
+        console.log(err);
+        throw new Error("Internal Server Error");
+      }
 
       //Creating a new user
       let user = new User({
@@ -42,18 +48,22 @@ router.post("/sign-in", async (req, res) => {
   try {
     //Extracting email and password from the req.body object
     const { email, password } = req.body;
+    const JWT_SECRET = process.env.JWT_SECRET;
 
     //Checking if user exists in database
     let user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(401).json({ message: "Invalid Credentials" });
+      return res.status(401).json({ message: "Invalid email Credentials" });
     }
 
     //Comparing provided password with password retrived from database
     bcrypt.compare(password, user.password, (err, result) => {
       if (result) {
-        return res.status(200).json({ message: "User Logged in Successfully" });
+        const token = jwt.sign({ email }, JWT_SECRET);
+        return res
+          .status(200)
+          .json({ message: "User Logged in Sucessfully", token });
       }
 
       console.log(err);
